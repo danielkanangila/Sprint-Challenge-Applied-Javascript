@@ -29,7 +29,7 @@
 
         component.addEventListener('click', e => {
             const currentTabData = document.querySelectorAll(`.card[data-tab-content=${e.target.dataset.tabTrigger}]`);
-
+            
             document.querySelectorAll('.card').forEach(
                 card => card.classList.add('hide')
             );
