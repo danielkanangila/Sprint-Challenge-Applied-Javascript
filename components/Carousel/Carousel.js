@@ -17,3 +17,52 @@
     <div class="right-button"> > </div>
   </div>
 */
+(function() {
+  const html = String.raw;
+  const parser = new DOMParser();
+
+  function Carousel() {
+    let slideIndex = 1;
+
+    const template = html`
+      <div class="carousel">
+        <div class="left-button"> < </div>
+        <img class="fade" src="./assets/carousel/mountains.jpeg" />
+        <img class="fade" src="./assets/carousel/computer.jpeg" />
+        <img class="fade" src="./assets/carousel/trees.jpeg" />
+        <img class="fade" src="./assets/carousel/turntable.jpeg" />
+        <div class="right-button"> > </div>
+      </div>
+    `;
+
+    const component = parser.parseFromString(template, 'text/html').body.firstChild;
+    const prevBtn = component.querySelector('.left-button');
+    const nextBtn = component.querySelector('.right-button');
+    prevBtn.addEventListener('click', e => plusSlides(-1));
+    nextBtn.addEventListener('click', e => plusSlides(1));
+    
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+
+    function showSlides(n) {
+      const slides = component.querySelectorAll('img');
+      if (n > slides.length) { slideIndex = 1 }
+      if (n < 1) { slideIndex = slides.length}
+      
+      for (let i=0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      
+      slides[slideIndex-1].style.display = 'block';
+    }
+
+    showSlides(slideIndex);
+    return component;
+
+  }
+
+  const carousel = Carousel();
+  const carouselContainer = document.querySelector('.carousel-container');
+  carouselContainer.appendChild(carousel);
+})();
